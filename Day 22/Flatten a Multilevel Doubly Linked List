@@ -1,0 +1,46 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+};
+*/
+
+class Solution {
+    private Queue<Node> store = new LinkedList<>();
+
+    public void helper(Node head)
+    {
+        Node temp;
+        while (head != null)
+    {
+        temp = head.next;
+        head.next = null;
+        head.prev = null;
+        store.offer(head);
+        if (head.child != null)
+            helper(head.child);
+        head.child = null;
+        head = temp;
+    }
+}
+
+    public Node flatten(Node head) {
+        helper(head);
+        if (store.peek() == null)
+            return head;
+        Node retval = store.poll();
+        Node first = retval;
+        while (store.peek() != null)
+        {
+            Node second = store.poll();
+            first.next = second;
+            second.prev = first;
+            first = second;
+        }
+        first.next = null;
+        return retval;
+    }
+}
