@@ -1,0 +1,79 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    //Function to insert a copy of each node in between the original nodes
+    private void insertCopyInBetween(Node head) {
+        Node temp = head;
+        while(temp != null) {
+            //Create a new node with the same data
+            Node copyNode = new Node(temp.val);
+
+            //Store next node of original linked list 
+            Node nextNode = temp.next;
+
+            copyNode.next = nextNode; //Point the copyNode next to the original node next
+            temp.next = copyNode; //Point the original node next to the copyNode
+            temp = nextNode; //Move to the next original node
+        }
+    }
+
+    // Function to connect random pointer of the copied nodes
+    private void connectRandomPointers(Node head) {
+        Node temp = head;
+        while(temp != null) {
+            Node copyNode = temp.next;  // Access the copied node
+            //If the original node has a random pointer
+            //Point the copyNode random to the corresponding copied random node
+            if(temp.random != null) copyNode.random = temp.random.next;
+            else    copyNode.random = null; // else set random of the copyNode as null
+
+            temp = temp.next.next; // Move to the next original node
+        }
+    }
+
+    //Function to retrieve the deep copy of the linked list
+    private Node getDeepCopyList(Node head) {
+        //Create a dummy node
+        Node copyHead = new Node(-1);
+        Node temp = head;
+        Node res = copyHead;
+
+        while(temp != null && temp.next != null) {
+            // Creating a new List by pointing to copied nodes
+            res.next = temp.next;
+            res = temp.next;
+
+            //Disconnect and revert back to the initial state of the original linked list
+            temp.next = temp.next.next;
+            temp = temp.next;
+        }
+
+        return copyHead.next;
+    }
+
+    public Node copyRandomList(Node head) {
+        if(head == null)    return head;
+        
+        //create copy nodes of the previous nodes
+        insertCopyInBetween(head);
+
+        //set the random variables to the copyNodes
+        connectRandomPointers(head);
+
+        //return the copy linked list
+        return getDeepCopyList(head);
+    }
+}
