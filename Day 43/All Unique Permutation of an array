@@ -1,0 +1,34 @@
+//User function Template for Java
+
+class Solution {
+   static void permute(ArrayList<Integer> arr, int index,Set<ArrayList<Integer>> set){
+        if(index == arr.size()){
+            set.add(new ArrayList<>(arr));
+           
+            return;
+        }
+        for(int i = index; i < arr.size(); i++){
+            swap(arr,index,i);
+            permute(arr,index+1,set);
+            swap(arr,index,i);
+        }
+    }
+  static  void swap(ArrayList<Integer> arr,int i,int j){
+        int temp = arr.get(i);
+      arr.set(i, arr.get(j)); 
+        arr.set(j, temp);
+    }
+    static ArrayList<ArrayList<Integer>> uniquePerms(ArrayList<Integer> arr , int n) {
+         Set<ArrayList<Integer>> set = new HashSet<>();
+     
+       permute(arr,0,set);
+       ArrayList<ArrayList<Integer>>ans = new ArrayList<>(set);
+        Collections.sort(ans,(a,b)-> {
+            for(int i = 0; i < a.size();i++)
+            if(a.get(i)!=b.get(i))
+            return a.get(i) - b.get(i);
+            return 0;
+        });
+       return ans;
+    }
+};
