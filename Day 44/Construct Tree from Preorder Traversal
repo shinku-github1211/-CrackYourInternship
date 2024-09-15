@@ -1,0 +1,35 @@
+/*class Node{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=right=null;
+    }
+}*/
+class Solution{
+   static int idx = 0;
+   Node constructTreeUtil(int pre[], char preLN[], int n)
+    {
+        // store the current value of index in pre[]
+        // Base Case: All nodes are constructed
+        if (idx >= pre.length)
+            return null;
+         if (preLN[idx] == 'L') {
+              return new Node(pre[idx]);
+         }
+         Node node = new Node(pre[idx]);
+        idx++;
+        node.left = constructTreeUtil(pre, preLN, n);
+        idx++;
+        node.right = constructTreeUtil(pre, preLN, n);
+  
+        return node;
+    }
+    Node constructTree(int n, int pre[], char preLN[]){
+	    // code here
+	    idx =0;
+  
+        return constructTreeUtil(pre, preLN, n);
+    }
+}
