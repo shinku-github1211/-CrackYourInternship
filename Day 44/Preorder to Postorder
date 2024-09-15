@@ -1,0 +1,33 @@
+// User function Template for Java
+
+/*
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int d) {
+        data = d;
+        left = right = null;
+    }
+}
+*/
+
+static class Solution {
+    // Function that constructs BST from its preorder traversal.
+   int s=0;
+    // Function that constructs BST from its preorder traversal.
+    public Node bst(int[] pre, int e , int min , int max){
+        if(s>e)return null;
+        int x= pre[s];
+        if(x>=max || x<=min)return null;
+        Node root = new Node(x);
+        s++;
+        root.left = bst(pre, e , min , x );
+        root.right= bst(pre, e , x, max);
+        return root;
+    }
+    public Node Bst(int pre[], int size) {
+        // code here
+        return bst(pre,  size-1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
