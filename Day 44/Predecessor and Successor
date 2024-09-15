@@ -1,0 +1,30 @@
+class Solution {
+    public static void findPreSuc(Node root, Node[] pre, Node[] suc, int key) {
+        predecessor(root, pre, suc, key);
+        successor(root, pre, suc, key);
+    }
+    
+    static void predecessor(Node root, Node[] pre, Node[] suc, int key){
+        while(root!=null){
+            if(root.data<key){
+                pre[0]=root;
+                root=root.right;
+            }
+            else if(root.data>=key){
+                root=root.left;
+            }
+        }
+    }
+    
+    static void successor(Node root, Node[] pre, Node[] suc, int key){
+        while(root!=null){
+            if(root.data<=key){
+                root=root.right;
+            }
+            else if(root.data>key){
+                suc[0]=root;
+                root=root.left;
+            }
+        }
+    }
+}
