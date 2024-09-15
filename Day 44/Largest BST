@@ -1,0 +1,44 @@
+//User function Template for Java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+
+
+class Solution{
+    
+   static class Pair{
+       int size;
+       int min;
+       int max;
+       Pair(int size,int max,int min){
+           this.size=size;
+           this.min=min;
+           this.max=max;
+       }
+   }
+    static int largestBst(Node root){
+        return helper(root).size;
+    }
+     static Pair helper(Node root){
+         if(root==null)return new Pair(0,Integer.MIN_VALUE,Integer.MAX_VALUE);
+         
+         Pair left=helper(root.left);
+         Pair right=helper(root.right);
+         
+         if(root.data > left.max && root.data < right.min){
+            return new Pair(1+left.size+right.size,Math.max(root.data,right.max),Math.min(root.data,left.min));   
+         }
+         
+         return new Pair(Math.max(left.size,right.size),Integer.MAX_VALUE,Integer.MIN_VALUE);
+     }
+    
+}
