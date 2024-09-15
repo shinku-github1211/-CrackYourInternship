@@ -1,0 +1,25 @@
+/*class Node {
+        int data;
+        Node left, right;
+ 
+        Node(int item) {
+            data = item;
+            left = right = null;
+        }
+    }*/
+
+//Function should return true if a deadEnd is found in the bst otherwise return false.
+class Solution
+{
+    public static boolean solve(Node node, int min, int max) {
+        if (node == null) return false;
+        if (min==max) return true;
+
+        return solve(node.left, min,node.data-1) || solve(node.right, node.data+1, max);
+    }
+
+    public static boolean isDeadEnd(Node root) {
+        if (root == null) return false;
+        return solve(root, 1, Integer.MAX_VALUE);
+    }
+}
