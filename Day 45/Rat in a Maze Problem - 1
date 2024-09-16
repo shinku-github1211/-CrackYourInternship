@@ -1,0 +1,60 @@
+class Solution {
+    ArrayList<String> paths=new  ArrayList<String>();
+    public boolean ispossible(int[][] mat,int r,int c,String s){
+        if(s.charAt(s.length()-1)=='A'){
+            if(mat[r][c]==0){
+                return false;
+            }
+        }
+        if(s.charAt(s.length()-1)=='D'){
+            if(r>=mat.length||mat[r][c]==99 || mat[r][c]==0){
+                return false;
+            }
+        }    
+        if(s.charAt(s.length()-1)=='U'){
+            if(r<0 || mat[r][c]==99||mat[r][c]==0){
+                return false;
+            }
+        }
+        if(s.charAt(s.length()-1)=='L'){
+            if(c<0 || mat[r][c]==99 ||mat[r][c]==0){
+                return false;
+            }
+        }
+         if(s.charAt(s.length()-1)=='R'){
+            if(c>=mat[0].length || mat[r][c]==99||mat[r][c]==0){
+                return false;
+            }
+        }
+        return true;
+        
+        
+        
+    }
+    public void rec(String res,int[][] mat,int row,int col){
+        
+        if(!ispossible(mat,row,col,res)){
+            return;
+        }
+        if(row==mat.length-1 && col==mat[0].length-1){
+            paths.add(res.substring(1));
+            return;
+        }
+        mat[row][col]=99;
+        rec(res+"D",mat,row+1,col);
+        rec(res+"U",mat,row-1,col);
+        rec(res+"L",mat,row,col-1);
+        rec(res+"R",mat,row,col+1);
+         mat[row][col]=1;
+        
+    }
+    public ArrayList<String> findPath(int[][] mat) {
+        // Your code here
+        rec("A",mat,0,0);
+        if(paths.size()==0){
+            paths.add("-1");
+            
+        }
+        return paths;
+    }
+}
