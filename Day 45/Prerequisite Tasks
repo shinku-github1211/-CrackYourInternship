@@ -1,0 +1,50 @@
+//User function Template for Java
+
+class Solution {
+    public boolean isPossible(int N,int P, int[][] prerequisites)
+    {
+        // Your Code goes here
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i < N; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        for(int[] coordinate : prerequisites){
+            adj.get(coordinate[0]).add(coordinate[1]);    
+        }
+        
+        int[] indegree = new int[N];
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int i = 0; i < N; i++){
+            for(int neighbour : adj.get(i))
+                indegree[neighbour]++;
+        }
+        
+        for(int i = 0; i < N; i++){
+            if(indegree[i] == 0)
+                q.add(i);
+        }
+        
+        ArrayList<Integer> topoOrder = new ArrayList<>();
+        
+        while(!q.isEmpty()){
+            int top = q.peek();
+            q.remove();
+            
+            topoOrder.add(top);
+            
+            for(int neighbour : adj.get(top)){
+                indegree[neighbour]--;
+                
+                if(indegree[neighbour] == 0)
+                    q.add(neighbour);
+            }
+        }
+        
+        if(topoOrder.size() == N)
+            return true;
+        return false;
+    }
+    
+}
