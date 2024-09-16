@@ -1,0 +1,52 @@
+class Solution
+{
+    class Position{
+        int x,y,steps;
+        
+        Position(int x,int y,int steps){
+            this.x=x;
+            this.y=y;
+            this.steps=steps;
+        }
+    }
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        int[] dx={-2,-2,-1,-1,1,1,2,2};
+        int[] dy={-1,1,-2,2,-2,2,-1,1};
+        int targetx = TargetPos[0] -1;
+        int targety = TargetPos[1] -1;
+        int startx= KnightPos[0] -1;
+        int starty= KnightPos[1] -1;
+        boolean[][] visited= new boolean[N][N];
+        visited[startx][starty]= true;
+        if (startx == targetx && starty == targety) return 0;
+        Queue<Position> q=new LinkedList<>();
+        q.add(new Position(startx,starty,0));
+        
+        while(!q.isEmpty()){
+            Position current = q.poll();
+            int x= current.x;
+            int y= current.y;
+            int steps = current.steps;
+            
+            for(int i=0;i<8;i++){
+                int newx= x+dx[i];
+                int newy= y+dy[i];
+                
+                if(isInsideBoard(newx,newy,N) && !visited[newx][newy]){
+                    if(newx == targetx && newy == targety){
+                        return steps+1;
+                    }
+                    
+                    visited[newx][newy]= true;
+                    q.add(new Position(newx, newy, steps+1));
+                }
+            }
+        }
+        return -1;
+    }
+    
+    private boolean isInsideBoard(int x,int y,int N){
+        return x>=0 && x<N && y>=0 && y<N;
+    }
+}
