@@ -1,0 +1,50 @@
+// User function Template for Java
+
+class Solution {
+    static int spanningTree(int V, int E, List<List<int[]>> adj) {
+        // Code Here.
+        List<int[]> edges = new LinkedList<>();
+        for(int i=0;i<adj.size();i++){
+            List<int[]> edgeList = adj.get(i);
+            for(int []edge : edgeList){
+                int nei = edge[0];
+                int we = edge[1];
+                edges.add(new int[]{i,nei,we});
+            }
+        }
+        
+        Collections.sort(edges,(a,b) -> a[2]-b[2]);
+        
+        int ans = 0;
+        int parent[] = new int[V];
+        Arrays.fill(parent,-1);
+        
+        
+        
+        
+        Set<Integer> visited = new HashSet<>();
+        for(int edge[] : edges){
+            int p1 = getParent(parent,edge[0]) ;
+            int p2 = getParent(parent,edge[1]) ;
+            if(p1 == p2){
+                continue;
+            }
+            parent[p1] = p2; 
+            ans +=edge[2]; 
+        }
+        
+        return ans;
+        
+    }
+    
+    static int getParent(int parent[] ,int node){
+        int par = parent[node];
+        if(node == par)
+            return node;
+        parent[node] = (par == -1) ? node : getParent(parent,par);
+        return parent[node];
+        
+    }
+    
+    
+}
